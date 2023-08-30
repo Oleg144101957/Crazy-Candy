@@ -15,8 +15,8 @@ fun Graph(){
 
     val navigation = rememberNavController()
 
-
     NavHost(navController = navigation, startDestination = Displays.Display1Route.endPoint){
+
         composable(route = Displays.Display1Route.endPoint){
             Display1(navigation = navigation)
         }
@@ -28,8 +28,5 @@ fun Graph(){
         composable(route = Displays.Display3Route.endPoint){
             Display3(navigation = navigation)
         }
-
-
     }
-
 }

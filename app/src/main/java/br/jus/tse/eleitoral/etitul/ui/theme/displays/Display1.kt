@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.jus.tse.eleitoral.etitul.R
+import br.jus.tse.eleitoral.etitul.ui.theme.Displays
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -44,11 +46,17 @@ fun Display1(navigation: NavHostController){
         rotationState.animateTo(
             targetValue = 360f,
             animationSpec = infiniteRepeatable(
-                tween(durationMillis = 2000, easing = FastOutSlowInEasing),
+                tween(durationMillis = 1700, easing = FastOutSlowInEasing),
                 repeatMode = RepeatMode.Reverse
             )
         )
     }
+
+    LaunchedEffect(Unit){
+        delay(2800)
+        navigation.navigate(Displays.Display2Route.endPoint)
+    }
+
 
     Image(
         painter = painterResource(id = R.drawable.bg),
