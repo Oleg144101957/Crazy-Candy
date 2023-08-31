@@ -1,5 +1,10 @@
 package br.jus.tse.eleitoral.etitul.ui.theme.displays
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -18,11 +23,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -76,6 +83,8 @@ fun Display3(navigation: NavHostController){
     }
 
 
+
+
     val font = FontFamily(Font(R.font.country_font))
 
     val fontColor = remember {
@@ -89,7 +98,7 @@ fun Display3(navigation: NavHostController){
         mutableIntStateOf(20)
     }
 
-    if (time.value < 10){
+    if (time.intValue < 10){
         fontColor.value = CandyRed
     }
 
@@ -100,7 +109,7 @@ fun Display3(navigation: NavHostController){
     LaunchedEffect(Unit){
         repeat(20){
             delay(1000)
-            time.value -= 1
+            time.intValue -= 1
         }
     }
 
@@ -127,7 +136,7 @@ fun Display3(navigation: NavHostController){
         )
 
         Text(
-            text = "Time remains: ${time.value}",
+            text = "Time remains: ${time.intValue}",
             color = fontColor.value,
             fontFamily = font,
             fontSize = 32.sp,
@@ -146,11 +155,27 @@ fun Display3(navigation: NavHostController){
         )
 
 
-        fun animateAndAddNewElements(positionsToAnimateSet: MutableSet<Int>){
+        suspend fun animateAndAddNewElements(positionsToAnimateSet: MutableSet<Int>){
+
+            val tmpImageListWithRandomImages = listOfDrawables.shuffled()
+            val tmpList = listOfElementsForTheGame.value.toMutableList()
+            for(i in positionsToAnimateSet){
+                tmpList[i] = tmpList[i].copy(isAnimate = true)
+            }
+            listOfElementsForTheGame.value = tmpList
+            //animate
+            delay(600)
+
+            for (i in positionsToAnimateSet){
+                tmpList[i] = tmpList[i].copy(picture = tmpImageListWithRandomImages[i].picture, isAnimate = false)
+            }
+            listOfElementsForTheGame.value = tmpList
+
+
 
         }
 
-        fun checkWinner(){
+        suspend fun checkWinner(){
 
             val positionsToAnimateSet: MutableSet<Int> = mutableSetOf()
 
@@ -160,6 +185,7 @@ fun Display3(navigation: NavHostController){
             }
 
             if (setRow1.size == 1){
+                scores.intValue += 1
                 positionsToAnimateSet.add(0)
                 positionsToAnimateSet.add(1)
                 positionsToAnimateSet.add(2)
@@ -172,6 +198,7 @@ fun Display3(navigation: NavHostController){
             }
 
             if (setRow2.size == 1){
+                scores.intValue += 1
                 positionsToAnimateSet.add(4)
                 positionsToAnimateSet.add(5)
                 positionsToAnimateSet.add(6)
@@ -184,6 +211,7 @@ fun Display3(navigation: NavHostController){
             }
 
             if (setRow3.size == 1){
+                scores.intValue += 1
                 positionsToAnimateSet.add(8)
                 positionsToAnimateSet.add(9)
                 positionsToAnimateSet.add(10)
@@ -196,6 +224,7 @@ fun Display3(navigation: NavHostController){
             }
 
             if (setRow4.size == 1){
+                scores.intValue += 1
                 positionsToAnimateSet.add(12)
                 positionsToAnimateSet.add(13)
                 positionsToAnimateSet.add(14)
@@ -210,6 +239,7 @@ fun Display3(navigation: NavHostController){
             setColumn1.add(listOfElementsForTheGame.value[12].picture)
 
             if (setColumn1.size == 1){
+                scores.intValue += 2
                 positionsToAnimateSet.add(0)
                 positionsToAnimateSet.add(4)
                 positionsToAnimateSet.add(8)
@@ -225,6 +255,7 @@ fun Display3(navigation: NavHostController){
 
 
             if (setColumn2.size == 1){
+                scores.intValue += 2
                 positionsToAnimateSet.add(1)
                 positionsToAnimateSet.add(5)
                 positionsToAnimateSet.add(9)
@@ -239,6 +270,7 @@ fun Display3(navigation: NavHostController){
 
 
             if (setColumn3.size == 1){
+                scores.intValue += 2
                 positionsToAnimateSet.add(2)
                 positionsToAnimateSet.add(6)
                 positionsToAnimateSet.add(10)
@@ -251,12 +283,15 @@ fun Display3(navigation: NavHostController){
             setColumn4.add(listOfElementsForTheGame.value[11].picture)
             setColumn4.add(listOfElementsForTheGame.value[15].picture)
 
-            if (setColumn3.size == 1){
+            if (setColumn4.size == 1){
+                scores.intValue += 2
                 positionsToAnimateSet.add(3)
                 positionsToAnimateSet.add(7)
                 positionsToAnimateSet.add(11)
                 positionsToAnimateSet.add(15)
             }
+
+            animateAndAddNewElements(positionsToAnimateSet)
 
         }
 
@@ -271,7 +306,7 @@ fun Display3(navigation: NavHostController){
                     newMutableList[touchedElement] = toSwap
                     newMutableList[elementToSwap] = touched
                     listOfElementsForTheGame.value = newMutableList.toList()
-                    delay(400)
+                    delay(100)
                     checkWinner()
                     isLocked.value = false
                 }
@@ -319,11 +354,21 @@ fun Display3(navigation: NavHostController){
             columns = GridCells.Fixed(4),
             content = {
                 items(16){ position ->
+
+                    val transitionIn = updateTransition(listOfElementsForTheGame.value[position].isAnimate, label = "")
+                    val alphaIn by transitionIn.animateFloat(
+                        transitionSpec = { tween(durationMillis = 800) },
+                        label = ""
+                    ) { isAnimate ->
+                        if (isAnimate) 0f else 1f
+                    }
+
                     Image(
                         painter = painterResource(id = listOfElementsForTheGame.value[position].picture),
                         contentDescription = "",
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
+                            .alpha(alphaIn)
                             .pointerInput(Unit) {
                                 detectDragGestures { change, dragAmount ->
                                     change.consume()
@@ -397,12 +442,4 @@ fun Display3(navigation: NavHostController){
             )
         }
     }
-}
-
-
-@Composable
-@Preview
-fun GamePrev(){
-    val nav = rememberNavController()
-    Display3(navigation = nav)
 }
