@@ -1,5 +1,7 @@
 package br.jus.tse.eleitoral.etitul.ui.theme.displays
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -39,8 +42,10 @@ import kotlinx.coroutines.delay
 @Composable
 fun Display1(navigation: NavHostController){
 
-    val font = FontFamily(Font(R.font.country_font))
+    val activity = LocalContext.current as Activity
+    activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
+    val font = FontFamily(Font(R.font.country_font))
     val rotationState = remember { Animatable(initialValue = 0f) }
 
     LaunchedEffect(Unit){

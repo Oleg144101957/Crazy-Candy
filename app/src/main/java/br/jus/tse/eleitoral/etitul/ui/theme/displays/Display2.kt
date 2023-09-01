@@ -1,6 +1,7 @@
 package br.jus.tse.eleitoral.etitul.ui.theme.displays
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -33,6 +34,9 @@ import br.jus.tse.eleitoral.etitul.ui.theme.Displays
 
 @Composable
 fun Display2(navigation: NavHostController){
+
+    val activity = LocalContext.current as Activity
+    activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
     Image(
         painter = painterResource(id = R.drawable.bg),
