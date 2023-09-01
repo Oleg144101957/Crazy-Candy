@@ -1,5 +1,6 @@
 package br.jus.tse.eleitoral.etitul.ui.theme.displays
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
@@ -372,13 +373,13 @@ fun Display3(navigation: NavHostController){
                             .pointerInput(Unit) {
                                 detectDragGestures { change, dragAmount ->
                                     change.consume()
-                                    if (dragAmount.x.toDp() > 7.dp){
+                                    if (dragAmount.x.toDp() > 7.dp) {
                                         swapRight(position)
-                                    } else if(dragAmount.x.toDp() < (-7).dp){
+                                    } else if (dragAmount.x.toDp() < (-7).dp) {
                                         swapLeft(position)
-                                    } else if (dragAmount.y.toDp() > 7.dp){
+                                    } else if (dragAmount.y.toDp() > 7.dp) {
                                         swapDown(position)
-                                    } else if(dragAmount.y.toDp() < (-7).dp){
+                                    } else if (dragAmount.y.toDp() < (-7).dp) {
                                         swapUp(position)
                                     }
                                 }

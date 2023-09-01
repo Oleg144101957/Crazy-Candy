@@ -1,6 +1,7 @@
 package br.jus.tse.eleitoral.etitul.ui.theme.displays
 
 import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -44,6 +45,10 @@ fun Display2(navigation: NavHostController){
     Box(modifier = Modifier.fillMaxSize()){
         Decor()
         Buttons(navigation)
+    }
+
+    BackHandler(enabled = true) {
+        //do nothing
     }
 }
 

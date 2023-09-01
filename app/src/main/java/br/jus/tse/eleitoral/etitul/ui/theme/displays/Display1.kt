@@ -1,5 +1,6 @@
 package br.jus.tse.eleitoral.etitul.ui.theme.displays
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -101,6 +102,10 @@ fun Display1(navigation: NavHostController){
                 .align(Alignment.Center)
                 .offset(y = 64.dp)
         )
+    }
+
+    BackHandler(enabled = true) {
+        //do nothing
     }
 }
 
