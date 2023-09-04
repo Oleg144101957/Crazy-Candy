@@ -68,5 +68,12 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation ("androidx.navigation:navigation-compose:2.7.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0-alpha01")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0-alpha01")
+
 
 }

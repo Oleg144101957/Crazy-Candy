@@ -2,10 +2,7 @@ package br.jus.tse.eleitoral.etitul.ui.theme.displays
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
-import androidx.activity.compose.BackHandler
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
@@ -27,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,15 +37,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import br.jus.tse.eleitoral.etitul.CrazyVM
 import br.jus.tse.eleitoral.etitul.R
 import br.jus.tse.eleitoral.etitul.ui.theme.CandyRed
 import br.jus.tse.eleitoral.etitul.ui.theme.CandyWhite
-import br.jus.tse.eleitoral.etitul.ui.theme.Displays
+import br.jus.tse.eleitoral.etitul.ui.theme.Jcnjkdkfkdjhgjkdlf
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -56,15 +53,17 @@ import kotlinx.coroutines.launch
 data class CandyElement(
     val picture: Int,
     val isAnimate: Boolean = false,
-    val info: String = ""
+    val info: String = "fdfdfe"
 )
 
-
 @Composable
-fun Display3(navigation: NavHostController){
+fun Display3(navigation: NavHostController, vm: CrazyVM){
 
     val activity = LocalContext.current as Activity
     activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+    val sc = vm.mutableLiveScores.observeAsState()
+
 
     val listOfDrawables = listOf<CandyElement>(
         CandyElement(picture = R.drawable.sugar),
@@ -89,18 +88,12 @@ fun Display3(navigation: NavHostController){
         mutableStateOf(listOfDrawables.shuffled())
     }
 
-
-
-
     val font = FontFamily(Font(R.font.country_font))
 
     val fontColor = remember {
         mutableStateOf(CandyWhite)
     }
 
-    val scores = remember {
-        mutableIntStateOf(0)
-    }
     val time = remember {
         mutableIntStateOf(20)
     }
@@ -138,7 +131,7 @@ fun Display3(navigation: NavHostController){
                 .padding(16.dp)
                 .size(48.dp)
                 .clickable {
-                    navigation.navigate(Displays.Display2Route.endPoint)
+                    navigation.navigate(Jcnjkdkfkdjhgjkdlf.Display2Route.nvdskjlnvdfksl)
                 }
         )
 
@@ -163,7 +156,6 @@ fun Display3(navigation: NavHostController){
 
 
         suspend fun animateAndAddNewElements(positionsToAnimateSet: MutableSet<Int>){
-
             val tmpImageListWithRandomImages = listOfDrawables.shuffled()
             val tmpList = listOfElementsForTheGame.value.toMutableList()
             for(i in positionsToAnimateSet){
@@ -177,9 +169,6 @@ fun Display3(navigation: NavHostController){
                 tmpList[i] = tmpList[i].copy(picture = tmpImageListWithRandomImages[i].picture, isAnimate = false)
             }
             listOfElementsForTheGame.value = tmpList
-
-
-
         }
 
         suspend fun checkWinner(){
@@ -192,7 +181,7 @@ fun Display3(navigation: NavHostController){
             }
 
             if (setRow1.size == 1){
-                scores.intValue += 1
+                vm.increaseScores()
                 positionsToAnimateSet.add(0)
                 positionsToAnimateSet.add(1)
                 positionsToAnimateSet.add(2)
@@ -205,7 +194,7 @@ fun Display3(navigation: NavHostController){
             }
 
             if (setRow2.size == 1){
-                scores.intValue += 1
+                vm.increaseScores()
                 positionsToAnimateSet.add(4)
                 positionsToAnimateSet.add(5)
                 positionsToAnimateSet.add(6)
@@ -218,7 +207,7 @@ fun Display3(navigation: NavHostController){
             }
 
             if (setRow3.size == 1){
-                scores.intValue += 1
+                vm.increaseScores()
                 positionsToAnimateSet.add(8)
                 positionsToAnimateSet.add(9)
                 positionsToAnimateSet.add(10)
@@ -231,7 +220,7 @@ fun Display3(navigation: NavHostController){
             }
 
             if (setRow4.size == 1){
-                scores.intValue += 1
+                vm.increaseScores()
                 positionsToAnimateSet.add(12)
                 positionsToAnimateSet.add(13)
                 positionsToAnimateSet.add(14)
@@ -246,7 +235,8 @@ fun Display3(navigation: NavHostController){
             setColumn1.add(listOfElementsForTheGame.value[12].picture)
 
             if (setColumn1.size == 1){
-                scores.intValue += 2
+                vm.increaseScores()
+                vm.increaseScores()
                 positionsToAnimateSet.add(0)
                 positionsToAnimateSet.add(4)
                 positionsToAnimateSet.add(8)
@@ -262,7 +252,8 @@ fun Display3(navigation: NavHostController){
 
 
             if (setColumn2.size == 1){
-                scores.intValue += 2
+                vm.increaseScores()
+                vm.increaseScores()
                 positionsToAnimateSet.add(1)
                 positionsToAnimateSet.add(5)
                 positionsToAnimateSet.add(9)
@@ -277,7 +268,8 @@ fun Display3(navigation: NavHostController){
 
 
             if (setColumn3.size == 1){
-                scores.intValue += 2
+                vm.increaseScores()
+                vm.increaseScores()
                 positionsToAnimateSet.add(2)
                 positionsToAnimateSet.add(6)
                 positionsToAnimateSet.add(10)
@@ -291,7 +283,8 @@ fun Display3(navigation: NavHostController){
             setColumn4.add(listOfElementsForTheGame.value[15].picture)
 
             if (setColumn4.size == 1){
-                scores.intValue += 2
+                vm.increaseScores()
+                vm.increaseScores()
                 positionsToAnimateSet.add(3)
                 positionsToAnimateSet.add(7)
                 positionsToAnimateSet.add(11)
@@ -361,7 +354,6 @@ fun Display3(navigation: NavHostController){
             columns = GridCells.Fixed(4),
             content = {
                 items(16){ position ->
-
                     val transitionIn = updateTransition(listOfElementsForTheGame.value[position].isAnimate, label = "")
                     val alphaIn by transitionIn.animateFloat(
                         transitionSpec = { tween(durationMillis = 800) },
@@ -406,7 +398,7 @@ fun Display3(navigation: NavHostController){
             )
 
             Text(
-                text = "Scores: ${scores.value}",
+                text = "Scores: ${sc.value}",
                 color = CandyWhite,
                 fontFamily = font,
                 fontSize = 24.sp,
@@ -430,7 +422,7 @@ fun Display3(navigation: NavHostController){
             )
 
             Text(
-                text = "Game Over \n \n  scores is ${scores.value}",
+                text = "Game Over \n \n  scores is ${sc.value}",
                 fontFamily = font,
                 color = CandyWhite,
                 fontSize = 48.sp,
@@ -445,7 +437,7 @@ fun Display3(navigation: NavHostController){
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(32.dp)
-                    .clickable { navigation.navigate(Displays.Display2Route.endPoint) }
+                    .clickable { navigation.navigate(Jcnjkdkfkdjhgjkdlf.Display2Route.nvdskjlnvdfksl) }
             )
         }
     }

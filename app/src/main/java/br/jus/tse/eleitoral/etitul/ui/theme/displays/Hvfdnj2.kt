@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -30,7 +29,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.jus.tse.eleitoral.etitul.R
 import br.jus.tse.eleitoral.etitul.ui.theme.CandyWhite
-import br.jus.tse.eleitoral.etitul.ui.theme.Displays
+import br.jus.tse.eleitoral.etitul.ui.theme.Jcnjkdkfkdjhgjkdlf
 
 @Composable
 fun Display2(navigation: NavHostController){
@@ -74,7 +73,7 @@ fun Buttons(navigation: NavHostController) {
                     modifier = Modifier
                         .align(Alignment.Center)
                         .clickable {
-                            navigation.navigate(Displays.Display3Route.endPoint)
+                            navigation.navigate(Jcnjkdkfkdjhgjkdlf.Display3Route.nvdskjlnvdfksl)
                         }
                 )
 

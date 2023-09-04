@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.jus.tse.eleitoral.etitul.R
-import br.jus.tse.eleitoral.etitul.ui.theme.Displays
+import br.jus.tse.eleitoral.etitul.ui.theme.Jcnjkdkfkdjhgjkdlf
 import kotlinx.coroutines.delay
 
 
@@ -60,7 +60,7 @@ fun Display1(navigation: NavHostController){
 
     LaunchedEffect(Unit){
         delay(2800)
-        navigation.navigate(Displays.Display2Route.endPoint)
+        navigation.navigate(Jcnjkdkfkdjhgjkdlf.Display2Route.nvdskjlnvdfksl)
     }
 
 
